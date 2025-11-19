@@ -6,80 +6,8 @@
 <title>Մաշային</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Forum&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styleNew.css">
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: #0B0B0C;
-  color: #E6E6E6;
-  overflow: hidden;
-}
-
-/* --- ПАРТИКЛЫ ФОНА --- */
-
-#particles {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(circle at 50% 50%, rgba(255,230,180,0.08), transparent 70%);
-}
-
-/* --- ОБЩИЕ ЭКРАНЫ --- */
-.screen {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 38px;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-
-.screen.active { opacity: 1; }
-
-/* --- ТЕКСТОВЫЙ БЛОК --- */
-.textbox {
-  max-width: 720px;
-  line-height: 1.72;
-  font-size: 20px;
-  white-space: pre-line;
-  font-family: "Forum", serif;
-  text-shadow: 0 0 8px rgba(212,162,89,0.35);
-}
-
-/* --- КНОПКИ --- */
-button {
-  background: rgba(212,162,89,0.08);
-  border: 1px solid rgba(212,162,89,0.45);
-  padding: 14px 32px;
-  font-size: 19px;
-  color: #D4A259;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: 0.25s;
-  text-shadow: 0 0 6px rgba(212,162,89,0.4);
-}
-button:hover {
-  background: rgba(212,162,89,0.18);
-  transform: scale(1.03);
-}
-
-/* --- MUTE BUTTON --- */
-.mute {
-  position: fixed;
-  top: 22px;
-  right: 26px;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 6px 12px;
-  border: 1px solid rgba(212,162,89,0.35);
-  border-radius: 6px;
-  color: #D4A259;
-}
-</style>
 </head>
 
 <body>
@@ -89,34 +17,13 @@ button:hover {
 
 <div class="mute" id="muteBtn">🔈</div>
 
-<div class="screen active" id="s1">
-  <button onclick="go(2)">Բացել</button>
+<div class="screen active open" id="s1">
+  <button onclick="go(2)" id="cover">Բացել</button>
 </div>
 
 <div class="screen" id="s2">
-  <div class="textbox">
-Մաշա ջան,
+  <div class="textbox" id="textbox">
 
-Կան մարդիկ, որոնք մեր կյանք չեն մտնում բարձր ձայնով։
-Նրանք գալիս են լույսով՝ առանց կտրուկ գույների,
-մի քիչ ամաչկոտ, մի քիչ խորք ունեցող հայացքով,
-ու դու հենց այդպես էլ մնացիր։
-
-Քո 20 տարին ոչ թե պարզապես թիվ է։
-Դա այն ամենը, ինչ պատմում է քո խաղաղ ուժի, քնքշության
-ու այն հոգու մասին, որի կողքին տաք է նույնիսկ լռության մեջ։
-
-Թող այս օրը լինի այն նուրբ շեմը,
-որտեղ ավարտվում են կասկածները
-և սկսվում է կյանքը, որ իսկապես քեզնից է։
-
-Երբ աշխարհը դառնա ծանր —
-մի մոռացիր, որ դու ունես իշխանություն
-փոխել շրջապատդ հենց քո լռությամբ, քո ժպիտով,
-քո էակով։
-
-Շնորհավոր ծնունդդ, Մաշա։
-Երանի քեզ՝ ողջ գեղեցկությամբ, որ կրում ես։
   </div>
 </div>
 
@@ -131,64 +38,144 @@ With warmth,
 </div>
 
 <script>
-let current = 1;
-const music = document.getElementById('music');
-const muteBtn = document.getElementById('muteBtn');
+// let current = 1;
+// const music = document.getElementById('music');
+// const muteBtn = document.getElementById('muteBtn');
 
-// смена сцен
-function go(n) {
-  document.getElementById(`s${current}`).classList.remove("active");
-  document.getElementById(`s${n}`).classList.add("active");
-  current = n;
+// // смена сцен
+// function go(n) {
+//   document.getElementById(`s${current}`).classList.remove("active");
+//   document.getElementById(`s${n}`).classList.add("active");
+//   current = n;
 
-  if (n === 2) music.play().catch(()=>{});
-  if (n === 3) setTimeout(()=>music.pause(),1500);
-}
+//   if (n === 2) music.play().catch(()=>{});
+//   if (n === 3) setTimeout(()=>music.pause(),1500);
+// }
 
-// mute
-let muted = false;
-muteBtn.onclick = () => {
-  muted = !muted;
-  music.muted = muted;
-  muteBtn.textContent = muted ? "🔇" : "🔈";
-};
+// // mute
+// let muted = false;
+// muteBtn.onclick = () => {
+//   muted = !muted;
+//   music.muted = muted;
+//   muteBtn.textContent = muted ? "🔇" : "🔈";
+// };
 
-// particles
-const canvas = document.createElement("canvas");
-const ctx = canvas.getContext("2d");
-document.getElementById("particles").appendChild(canvas);
+// // particles
+// const canvas = document.createElement("canvas");
+// const ctx = canvas.getContext("2d");
+// document.getElementById("particles").appendChild(canvas);
 
-let w, h, particles = [];
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.onresize = resize;
-resize();
+// let w, h, particles = [];
+// function resize() {
+//   w = canvas.width = window.innerWidth;
+//   h = canvas.height = window.innerHeight;
+// }
+// window.onresize = resize;
+// resize();
 
-for (let i = 0; i < 70; i++) {
-  particles.push({
-    x: Math.random()*w,
-    y: Math.random()*h,
-    s: Math.random()*1.4 + 0.4,
-    v: Math.random()*0.4 + 0.1
-  });
-}
+// for (let i = 0; i < 70; i++) {
+//   particles.push({
+//     x: Math.random()*w,
+//     y: Math.random()*h,
+//     s: Math.random()*1.4 + 0.4,
+//     v: Math.random()*0.4 + 0.1
+//   });
+// }
 
-function draw() {
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = "rgba(212,162,89,0.55)";
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
-    ctx.fill();
-    p.y -= p.v;
-    if (p.y < -5) p.y = h + 5;
-  });
-  requestAnimationFrame(draw);
-}
-draw();
+// function draw() {
+//   ctx.clearRect(0,0,w,h);
+//   ctx.fillStyle = "rgba(212,162,89,0.55)";
+//   particles.forEach(p=>{
+//     ctx.beginPath();
+//     ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
+//     ctx.fill();
+//     p.y -= p.v;
+//     if (p.y < -5) p.y = h + 5;
+//   });
+//   requestAnimationFrame(draw);
+// }
+// draw();
+
+
+
+// let cover = document.getElementById('cover')
+// const typingEl = document.getElementById("textbox");
+// const fullText = `Մաշա ջան,
+
+// Կան մարդիկ, որոնք մեր կյանք չեն մտնում բարձր ձայնով։
+// Նրանք գալիս են լույսով՝ առանց կտրուկ գույների,
+// մի քիչ ամաչկոտ, մի քիչ խորք ունեցող հայացքով,
+// ու դու հենց այդպես էլ մնացիր։
+
+// Քո 20 տարին ոչ թե պարզապես թիվ է։
+// Դա այն ամենը, ինչ պատմում է քո խաղաղ ուժի, քնքշության
+// ու այն հոգու մասին, որի կողքին տաք է նույնիսկ լռության մեջ։
+
+// Թող այս օրը լինի այն նուրբ շեմը,
+// որտեղ ավարտվում են կասկածները
+// և սկսվում է կյանքը, որ իսկապես քեզնից է։
+
+// Երբ աշխարհը դառնա ծանր —
+// մի մոռացիր, որ դու ունես իշխանություն
+// փոխել շրջապատդ հենց քո լռությամբ, քո ժպիտով,
+// քո էակով։
+
+// Շնորհավոր ծնունդդ, Մաշա։
+// Երանի քեզ՝ ողջ գեղեցկությամբ, որ կրում ես։`
+
+// let lineIndex = 0, charIndex = 0;
+// let lines = fullText.split('\n');
+
+// // handle cover click
+// cover.addEventListener('click', async () => {
+//   cover.classList.add('hide');
+//   // show stage after tiny delay
+//   setTimeout(() => {
+//     stage.classList.remove('hidden');
+//     stage.classList.add('show');
+//     startTyping();
+//   }, 520);
+
+//   // attempt audio play & fade-in
+//   try {
+//     bg.volume = 0;
+//     await bg.play();
+//     fadeInVolume();
+//   } catch (e) {
+//     console.warn("Autoplay blocked:", e);
+//   }
+// });
+
+// // typing function (line by line, word-aware pause)
+// function startTyping(){
+//   typingEl.textContent = '';
+//   lineIndex = 0; charIndex = 0;
+//   typeNextLine();
+// }
+// function typeNextLine(){
+//   if (lineIndex >= lines.length) return;
+//   const line = lines[lineIndex];
+//   charIndex = 0;
+//   const timer = setInterval(()=>{
+//     if (charIndex <= line.length){
+//       // append char
+//       typingEl.textContent += line.charAt(charIndex) || '';
+//       charIndex++;
+//     } else {
+//       clearInterval(timer);
+//       typingEl.textContent += '\n';
+//       lineIndex++;
+//       // longer pause on blank line
+//       setTimeout(typeNextLine, line.trim() === '' ? 400 : 420);
+//     }
+//   }, 28);
+// }
+
+
+
+
 </script>
+<script src="scriptNew.js"></script>
 
 </body>
 </html>
