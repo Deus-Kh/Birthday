@@ -1,16 +1,9 @@
 let current = 1;
 const music = document.getElementById('music')
 const muteBtn = document.getElementById('muteBtn');
-music.currentTime=70;
-// смена сцен
-function go(n) {
-  document.getElementById(`s${current}`).classList.remove("active");
-  document.getElementById(`s${n}`).classList.add("active");
-  current = n;
+const stage = document.getElementById("stage");
+music.currentTime=71;
 
-  if (n === 2) music.play().catch(()=>{});
-  if (n === 3) setTimeout(()=>music.pause(),1500);
-}
 
 // mute
 let muted = false;
@@ -32,19 +25,20 @@ function resize() {
 }
 window.onresize = resize;
 resize();
-
-for (let i = 0; i < 70; i++) {
+const count = Math.max(40, Math.floor((w*h)/60000));
+for (let i = 0; i < 60; i++) {
   particles.push({
     x: Math.random()*w,
     y: Math.random()*h,
     s: Math.random()*1.4 + 0.4,
-    v: Math.random()*0.4 + 0.1
+    v: Math.random()*0.4 + 0.1,
+    alpha: 0.3 + Math.random()*0.5
   });
 }
 
 function draw() {
   ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = "rgba(212,162,89,0.55)";
+  ctx.fillStyle = `rgba(212,162,89,0.5)`;
   particles.forEach(p=>{
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
@@ -106,28 +100,28 @@ const fullText = `Մաշ,
 ուշացած երազանքները՝ հասկանալի,
 իսկ որտեղ ես կլինեմ՝ դու երբեք չզգաս միայնություն։
 
-Շնորհավոր ծնունդդ, Մաշա․․․
+Շնորհավոր ծնունդդ․․․
 
-Քո խաղաղության բարեկամը՝
+Քո խաղաղության բարեկամ՝
 Արտակ`
 
 let lineIndex = 0, charIndex = 0;
 let lines = fullText.split('\n');
 
-// handle cover click
+// handle cover clickx
 cover.addEventListener('click', async () => {
   cover.classList.add('hide');
   // show stage after tiny delay
   setTimeout(() => {
-    // stage.classList.remove('hidden');
-    // stage.classList.add('show');
+    cover.classList.remove('active');
+    stage.classList.add('active');
     startTyping();
   }, 520);
 
   // attempt audio play & fade-in
   try {
-    bg.volume = 0;
-    await bg.play();
+    music.volume = 0;
+    await music.play();
     fadeInVolume();
   } catch (e) {
     console.warn("Autoplay blocked:", e);
@@ -156,16 +150,16 @@ function typeNextLine(){
       typingEl.textContent += '\n';
       lineIndex++;
       // longer pause on blank line
-      setTimeout(typeNextLine, line.trim() === '' ? 400 : 420);
+      setTimeout(typeNextLine, line.trim() === '' ? 410 : 430);
     }
-  }, 35);
+  }, 45);
 }
 function fadeInVolume(){
   let v = 0;
   const t = setInterval(()=>{
-    if (v < 0.44){
+    if (v < 0.1){
       v += 0.02;
-      bg.volume = v;
+      music.volume = v;
     } else clearInterval(t);
-  }, 120);
+  }, 150);
 }
